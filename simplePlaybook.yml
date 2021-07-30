@@ -1,0 +1,35 @@
+---
+- hosts: web
+  become: true
+  vars:
+    - webserver: "nginx" 
+  tasks:
+    - name: Install apache
+      apt:
+        name: "{{ webserver }}"
+        state: latest
+        update_cache: yes
+    - name: Enable service apache2
+      service:
+        name: "{{ webserver }}"
+        enabled: yes
+    
+    - name: Copy HTML files
+      copy:
+        src: /home/azadmin/playbooks/htmlFiles/
+        dest: /var/www/html/
+        owner: 'www-data'
+        
+
+- hosts: db  
+  become: true
+  vars:
+    - db: "mariadb-server"
+  tasks:
+    - name: Install MariabDB
+      apt:
+        name: "{{ db }}"
+        state: latest
+        update_cache: yes
+        
+

@@ -1,0 +1,21 @@
+---
+# tasks file for role
+
+- name: Install apache
+      apt:
+        name: "{{ webServer }}"
+        state: latest
+        update_cache: yes
+
+- name: Enable service apache2
+    service:
+      name: apache2
+      enabled: yes
+    
+- name: Copy HTML files
+  copy:
+    src: /home/adminuser/playbooks/htmlFiles/
+    dest: /var/www/html/
+    owner: 'www-data'
+  notify: restart apache2
+    
